@@ -1,5 +1,23 @@
+import fs from 'fs/promises';
+import path from 'path';
+
 const create = async () => {
-  // Write your code here
+    const filePath = path.join(process.cwd(), 'files', 'fresh.txt');
+
+    try {
+        await fs.access(filePath);
+        throw new Error('FS operation failed');
+    } catch (err) {
+        if (err.code !== 'ENOENT') throw new Error('FS operation failed');
+    }
+
+    await fs.mkdir(path.dirname(filePath), { recursive: true });
+    await fs.writeFile(filePath, 'I am fresh and young');
 };
 
-await create();
+try {
+    await create();
+    console.log('Файл успешно создан');
+} catch (err) {
+    console.error('Ошибка:', err.message);
+}
