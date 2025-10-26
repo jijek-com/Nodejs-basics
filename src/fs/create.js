@@ -17,7 +17,6 @@ const create = async () => {
 
 try {
     await create();
-    console.log('Файл успешно создан');
 } catch (err) {
-    console.error('Ошибка:', err.message);
+    console.error(err.message);
 }
