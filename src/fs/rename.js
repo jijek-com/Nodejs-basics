@@ -1,8 +1,12 @@
 import fs from 'fs/promises';
 import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const rename = async () => {
-    const dir = path.join(process.cwd(), 'files');
+    const dir = path.join(__dirname, 'files');
     const oldPath = path.join(dir, 'wrongFilename.txt');
     const newPath = path.join(dir, 'properFilename.md');
 
@@ -10,13 +14,6 @@ const rename = async () => {
         await fs.access(oldPath);
     } catch {
         throw new Error('FS operation failed');
-    }
-
-    try {
-        await fs.access(newPath);
-        throw new Error('FS operation failed');
-    } catch (err) {
-        if (err.code !== 'ENOENT') throw new Error('FS operation failed');
     }
 
     try {
